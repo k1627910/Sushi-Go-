@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class Frame extends JFrame{
 	private static final int WIDTH = 1920;
-	private static final int HEIGHT = 1040;
+	private static final int HEIGHT = 1035;
 	
 	public Frame(String name) {
 		super(name);

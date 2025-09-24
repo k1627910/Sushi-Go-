@@ -13,4 +13,26 @@ public class Card {
 	public String getName() {
 		return name;
 	}
+	
+	public boolean isWasabi () {
+		if (name.equals("Wasabi")) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isNigiri() {
+		if (name.substring(name.length()-6,name.length()).equals("Nigiri")) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void setIsNigiriOnWasabi(boolean b) {
+		return;
+	}
+	
+	public boolean isNigiriOnWasabi() {
+		return false;
+	}
 }

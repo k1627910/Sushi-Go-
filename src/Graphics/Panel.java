@@ -1,13 +1,12 @@
 package Graphics;
-import Game.*;
 import Cards.*;
+import Game.*;
 import java.awt.*;
-import javax.swing.*;
-import java.io.*;
-import javax.imageio.*;
-import java.awt.image.*;
 import java.awt.event.*;
+import java.awt.image.*;
 import java.util.*;
+import javax.imageio.*;
+import javax.swing.*;
 
 public class Panel extends JPanel implements MouseListener, KeyListener{
 	private Game game;
@@ -60,62 +59,74 @@ public class Panel extends JPanel implements MouseListener, KeyListener{
 	}
 	
 	public void gameCards(Graphics g) {
+		g.setColor(new Color(46,163,163));
+		g.setFont(new Font("Arial", Font.BOLD, 50));
+		g.drawString("Player " + (int)(currentPlayer+1) + ": Select your card!", getWidth()/10, getHeight()/15);		
+
 		ArrayList<Card> cards = players.get(currentPlayer).getHand();
 		ArrayList<ArrayList<Card>> playedCards = new ArrayList<>();
 		for (int i=0;i<players.size();i++){
-			playedCards.add(players.get(i).getPlayedCards());
+		    playedCards.add(players.get(i).getPlayedCards());
 		}
+
 		int x = (int)(getWidth()/2-(getWidth()/10*4.5));
 		for (int i=0;i<cards.size();i++) {
-			BufferedImage image = getBufferedImage(cards.get(i));
-			int z = (int)(getWidth()/10);
-			g.drawImage(image, x, getHeight()-(getHeight()/3), z, (int)(z*1.54), null);
-			x+=getWidth()/10;
+		    BufferedImage image = getBufferedImage(cards.get(i));
+		    int z = (int)(getWidth()/10);
+		    g.drawImage(image, x, getHeight()-(getHeight()/3), z, (int)(z*1.54), null);
+		    x+=getWidth()/10;
 		}
+
 		x = (int)(getWidth()/2-(getWidth()/10*4));
-		int y=getHeight()-(getHeight()/21*20);
+		int y=getHeight()-(getHeight()/10*9);
 		for (int i=0;i<playedCards.size();i++) {
-			for (int j=0;j<playedCards.get(i).size();j++) {
-				BufferedImage image = getBufferedImage(playedCards.get(i).get(j));
-				int z = (int)(getWidth()/15);
-				g.drawImage(image, x, y, z, (int)(z*1.54), null);
-				if (j!=playedCards.get(i).size()-1) {
-					x+=getWidth()/15;
-				}
+			if (playedCards.get(2).size()>=1) {
+				g.drawString("P" + (int)(i+1) + ":", x-100, y+70);
 			}
-			y+=(getWidth()/15)*1.54;
-			x = (int)(getWidth()/2-(getWidth()/10*4));
+		    ArrayList<Card> pile = playedCards.get(i);
+		    for (int j=0;j<pile.size();j++) {
+		        BufferedImage image = getBufferedImage(pile.get(j));
+		        int z = (int)(getWidth()/17);
+		        g.drawImage(image, x, y, z, (int)(z*1.54), null);
+		        if (j!=pile.size()-1) {
+		            x+=getWidth()/17;
+		        }
+		    }
+		    y+=(getWidth()/17)*1.54;
+		    x = (int)(getWidth()/2-(getWidth()/10*4));
 		}
-		y=getHeight()-(getHeight()/21*20);
+
+		y=getHeight()-(getHeight()/10*9);
 		x = 8*(int)(getWidth()/2-(getWidth()/10*4));
 		for (int i=0;i<players.size();i++) {
-			Player p = players.get(i);
-			for (int j=0;j<p.getPuddingCount();j++) {
-				int z = (int)(getWidth()/15);
-				g.drawImage(pudding, x, y, z, (int)(z*1.54),null);
-				if (j!=p.getPuddingCount()-1) {
-					x+=getWidth()/45;
-				}
-			}
-			y+=(getWidth()/15)*1.54;
-			x = 8*(int)(getWidth()/2-(getWidth()/10*4));
+		    Player p = players.get(i);
+		    for (int j=0;j<p.getPuddingCount();j++) {
+		        int z = (int)(getWidth()/17);
+		        g.drawImage(pudding, x, y, z, (int)(z*1.54),null);
+		        if (j!=p.getPuddingCount()-1) {
+		            x+=getWidth()/45;
+		        }
+		    }
+		    y+=(getWidth()/17)*1.54;
+		    x = 8*(int)(getWidth()/2-(getWidth()/10*4));
 		}
+
 		if (players.get(currentPlayer).getHasChopsticks() && !players.get(currentPlayer).getWantsToUseChopsticks()) {
-			g.setColor(Color.black);
-			g.fillRect((int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20)-10, getHeight()-getHeight()/5-35, 200, 105);
-			g.setColor(new Color(46,163,163));
-			g.setFont(new Font("Arial", Font.BOLD, 23));
-			g.drawString("Click C to", (int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20), getHeight()-getHeight()/5+7);
-			g.drawString("use Chopsticks", (int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20), getHeight()-getHeight()/6+18);
+		    g.setColor(Color.black);
+		    g.fillRect((int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20)-10, getHeight()-getHeight()/5-35, 200, 105);
+		    g.setColor(new Color(46,163,163));
+		    g.setFont(new Font("Arial", Font.BOLD, 23));
+		    g.drawString("Click C to", (int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20), getHeight()-getHeight()/5+7);
+		    g.drawString("use Chopsticks", (int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20), getHeight()-getHeight()/6+18);
 		}
 		else if (players.get(currentPlayer).getHasChopsticks() && players.get(currentPlayer).getWantsToUseChopsticks()){
-			g.setColor(new Color(46,163,163));
-			g.fillRect((int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20)-10, getHeight()-getHeight()/5-35, 200, 105);
-			g.setColor(Color.black);
-			g.setFont(new Font("Arial", Font.BOLD, 20));
-			g.drawString("Chopsticks Active", (int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20), getHeight()-getHeight()/5+7);
-			g.drawString("C to disable", (int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20), getHeight()-getHeight()/6+18);
-		}
+		    g.setColor(new Color(46,163,163));
+		    g.fillRect((int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20)-10, getHeight()-getHeight()/5-35, 200, 105);
+		    g.setColor(Color.black);
+		    g.setFont(new Font("Arial", Font.BOLD, 20));
+		    g.drawString("Chopsticks Active", (int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20), getHeight()-getHeight()/5+7);
+		    g.drawString("C to disable", (int)((getWidth()/2-(getWidth()/10*4.5))+getWidth()/10*8+20), getHeight()-getHeight()/6+18);
+		} 		
 	}
 	
 	public void roundResults(Graphics g) {
